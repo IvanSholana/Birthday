@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selamat Ulang Tahun!</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .balloon {
+        position: absolute;
+        bottom: -100px; /* Mulai dari luar layar di bawah */
+        opacity: 0; /* Set opacity menjadi 0 pada awalnya */
+        z-index: 10; /* Memberikan z-index yang lebih tinggi untuk memastikan gambar balon berada di depan */
+      }
+
+      @keyframes flyAndDisappear {
+        0% {
+          bottom: -100px; /* Mulai dari luar layar di bawah */
+          opacity: 0; /* Opacity tetap 0 */
+        }
+        50% {
+          bottom: 50%; /* Posisi tengah layar */
+          opacity: 1; /* Opacity menjadi 1 saat di tengah */
+        }
+        100% {
+          bottom: 110%; /* Keluar layar di atas */
+          opacity: 0; /* Opacity kembali menjadi 0 */
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-yellow-200 relative">
+    <img src="./Balloon-Border.png" alt="" class="balloon" />
+    <img
+      src="./background.gif"
+      class="absolute inset-0 w-full h-full object-cover z-0 opacity-0"
+    />
+    <div class="container mx-auto relative z-10">
+      <img src="ucapan.png" alt="" class="w-80 md:max-w-md mx-auto opacity-0" />
+      <div class="py-8">
+        <p
+          class="text-4xl font-bold text-center mb-5 opacity-0 text-pretty font-sans"
+        >
+          Hasna Sri Aprilianti
+        </p>
+
+        <h1 id="typewriter-text" class="text-2xl text-center opacity-0"></h1>
+      </div>
+      <button
+        id="startButton"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-auto flex justify-center"
+      >
+        Klik Sini Naa!
+      </button>
+    </div>
+    <div class="flex justify-center">
+      <img src="./cake.gif" alt="" class="w-60 opacity-0" />
+    </div>
+    <audio id="audio" controls style="display: none">
+      <source src="./audio.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+    <script>
+      document
+        .getElementById("startButton")
+        .addEventListener("click", function () {
+          var elements = document.querySelectorAll(".opacity-0");
+          elements.forEach(function (element) {
+            element.classList.remove("opacity-0");
+          });
+          var audio = document.getElementById("audio");
+          audio.play();
+          var balloon = document.querySelector(".balloon");
+          balloon.style.animation = "flyAndDisappear 5s linear forwards";
+          this.style.display = "none";
+        });
+    </script>
+    <script src="./script.js"></script>
+  </body>
+</html>
