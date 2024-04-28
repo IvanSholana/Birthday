@@ -1,5 +1,5 @@
 const sentences = [
-  "Selamat Ulang Tahun Hasnaaaa!!!!",
+  "Selamat Ulang Tahun Hasnaaaa!!!!🥳",
   "Semoga panjang umurrrr",
   "Semoga sehat selaluuu",
   "Semoga sukses selaluuu",
@@ -10,8 +10,8 @@ const sentences = [
   "Semakin baik kedepannya",
   "Dijauhkan dari segala keburukan",
   "Didekatkan dengan segala kebaikan",
-  "Semoga diberikan yang terbaik dari yang terbaik dari yang diridhoi-Nya🤲🏻",
-  "Fii Amanillah",
+  "Semoga diberikan yang terbaik dari yang terbaik dari yang diridhoi-Nya",
+  "Fii Amanillah🤲🏻",
 ];
 
 let sentenceIndex = 0;
