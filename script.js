@@ -23,7 +23,7 @@ function typeWriter() {
     document.getElementById("typewriter-text").textContent +=
       currentSentence.charAt(charIndex);
     charIndex++;
-    setTimeout(typeWriter, 100); // Waktu penundaan antara setiap karakter (dalam milidetik)
+    setTimeout(typeWriter, 150); // Waktu penundaan antara setiap karakter (dalam milidetik)
   } else {
     // Jika sudah mencapai akhir kalimat, reset charIndex dan lanjut ke kalimat berikutnya
     charIndex = 0;
@@ -32,7 +32,7 @@ function typeWriter() {
     setTimeout(() => {
       document.getElementById("typewriter-text").textContent = "";
       typeWriter(); // Panggil fungsi typeWriter untuk menampilkan kalimat berikutnya
-    }, 1000); // Waktu penundaan sebelum menampilkan kalimat berikutnya (dalam milidetik)
+    }, 1500); // Waktu penundaan sebelum menampilkan kalimat berikutnya (dalam milidetik)
   }
 }
 
