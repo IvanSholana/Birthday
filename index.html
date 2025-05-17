@@ -8,58 +8,68 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
     <style>
       body {
+        background: linear-gradient(135deg, #fff7ed, #f9a8d4);
         overflow: hidden;
-        background: linear-gradient(135deg, #fefcbf, #f472b6);
       }
       .balloon {
         position: absolute;
-        width: 60px;
-        z-index: 10;
+        width: 50px;
+        z-index: 15;
         opacity: 0;
       }
       .hidden {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
       }
       .cake-container {
-        transform: translateY(100px);
         opacity: 0;
+        transform: translateY(50px);
+      }
+      .button-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 20;
       }
       @keyframes float {
-        0% { transform: translateY(100vh); opacity: 0; }
+        0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
         20% { opacity: 1; }
         80% { opacity: 1; }
-        100% { transform: translateY(-100vh); opacity: 0; }
+        100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+      }
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
       }
     </style>
   </head>
   <body class="relative min-h-screen flex items-center justify-center">
-    <div class="container mx-auto relative z-10 text-center p-4">
-      <button
-        id="startButton"
-        class="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300"
-      >
-        Klik Sini!
-      </button>
+    <div class="container mx-auto relative z-10 text-center p-6">
+      <div class="button-container">
+        <button
+          id="startButton"
+          class="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-3 px-8 rounded-full shadow-xl transform hover:scale-110 transition-all duration-300 animate-pulse"
+        >
+          Klik Sini!
+        </button>
+      </div>
       <img
-        src="https://via.placeholder.com/300x100?text=Ucapan"
+        src="./ucapan.png"
         alt="Ucapan"
-        class="ucapan-image w-64 md:w-96 mx-auto hidden"
+        class="ucapan-image w-72 md:w-96 mx-auto hidden"
       />
-      <h1 class="text-4xl md:text-5xl font-bold text-pink-600 mt-6 font-sans hidden">
+      <h1 class="text-5xl md:text-6xl font-extrabold text-pink-700 mt-8 font-sans hidden drop-shadow-lg">
         Hasna Sri Aprilianti
       </h1>
-      <p id="typewriter-text" class="text-2xl md:text-3xl text-gray-800 mt-4 font-serif hidden"></p>
-      <div class="cake-container mt-8">
-        <img
-          src="https://media.giphy.com/media/l0Iyl55kTeh71nTWw/giphy.gif"
-          alt="Cake"
-          class="w-48 md:w-64 mx-auto"
-        />
+      <p id="typewriter-text" class="text-2xl md:text-3xl text-gray-900 mt-6 font-serif hidden italic"></p>
+      <div class="cake-container mt-10">
+        <img src="./cake.gif" alt="Cake" class="w-56 md:w-72 mx-auto" />
       </div>
     </div>
     <audio id="audio" controls style="display: none">
-      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
+      <source src="./audio.mp3" type="audio/mpeg" />
       Your browser does not support the audio element.
     </audio>
 
@@ -76,7 +86,7 @@
         "Semakin baik kedepannya",
         "Dijauhkan dari segala keburukan",
         "Didekatkan dengan segala kebaikan",
-        "Semoga diberikan yang terbaik dari yang terbaik dari yang diridhoi-Nya",
+        "Semoga diberikan yang بهترین dari yang terbaik dari yang diridhoi-Nya",
         "Fii Amanillah🤲🏻",
       ];
 
@@ -89,14 +99,14 @@
         if (charIndex < currentSentence.length) {
           typewriterText.textContent += currentSentence.charAt(charIndex);
           charIndex++;
-          setTimeout(typeWriter, 100);
+          setTimeout(typeWriter, 120);
         } else {
           setTimeout(() => {
             typewriterText.textContent = "";
             charIndex = 0;
             sentenceIndex = (sentenceIndex + 1) % sentences.length;
             typeWriter();
-          }, 2000);
+          }, 1800);
         }
       }
 
@@ -105,27 +115,29 @@
         balloonContainer.className = "absolute w-full h-full pointer-events-none";
         document.body.appendChild(balloonContainer);
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 12; i++) {
           const balloon = document.createElement("img");
-          balloon.src = "https://via.placeholder.com/60x100/FF0000/FFFFFF?text=Balloon";
+          balloon.src = "./Balloon-Border.png";
           balloon.className = "balloon";
-          balloon.style.left = `${Math.random() * 100}%`;
-          balloon.style.width = `${40 + Math.random() * 30}px`;
-          balloon.style.animation = `float ${5 + Math.random() * 5}s linear forwards`;
+          balloon.style.left = `${Math.random() * 90 + 5}%`;
+          balloon.style.width = `${40 + Math.random() * 40}px`;
+          balloon.style.animation = `float ${4 + Math.random() * 6}s linear forwards`;
+          balloon.style.animationDelay = `${Math.random() * 2}s`;
           balloonContainer.appendChild(balloon);
         }
       }
 
       document.getElementById("startButton").addEventListener("click", () => {
-        document.getElementById("startButton").style.display = "none";
+        document.getElementById("startButton").parentElement.style.display = "none";
         document.getElementById("audio").play();
         createBalloons();
 
         gsap.to(".hidden", {
           opacity: 1,
           y: 0,
-          duration: 1,
-          stagger: 0.3,
+          duration: 1.2,
+          stagger: 0.4,
+          ease: "power2.out",
           onStart: () => {
             document.querySelectorAll(".hidden").forEach((el) => el.classList.remove("hidden"));
             typeWriter();
@@ -135,14 +147,15 @@
         gsap.to(".cake-container", {
           opacity: 1,
           y: 0,
-          duration: 1,
-          delay: 0.5,
+          duration: 1.5,
+          delay: 0.8,
+          ease: "elastic.out(1, 0.5)",
         });
 
         gsap.to(".ucapan-image", {
           opacity: 1,
           scale: 1,
-          duration: 1,
+          duration: 1.5,
           ease: "bounce.out",
         });
       });
