@@ -4,80 +4,148 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Selamat Ulang Tahun!</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
     <style>
+      body {
+        overflow: hidden;
+        background: linear-gradient(135deg, #fefcbf, #f472b6);
+      }
       .balloon {
         position: absolute;
-        bottom: -100px; /* Mulai dari luar layar di bawah */
-        opacity: 0; /* Set opacity menjadi 0 pada awalnya */
-        z-index: 10; /* Memberikan z-index yang lebih tinggi untuk memastikan gambar balon berada di depan */
+        width: 60px;
+        z-index: 10;
+        opacity: 0;
       }
-
-      @keyframes flyAndDisappear {
-        0% {
-          bottom: -100px; /* Mulai dari luar layar di bawah */
-          opacity: 0; /* Opacity tetap 0 */
-        }
-        50% {
-          bottom: 50%; /* Posisi tengah layar */
-          opacity: 1; /* Opacity menjadi 1 saat di tengah */
-        }
-        100% {
-          bottom: 110%; /* Keluar layar di atas */
-          opacity: 0; /* Opacity kembali menjadi 0 */
-        }
+      .hidden {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      .cake-container {
+        transform: translateY(100px);
+        opacity: 0;
+      }
+      @keyframes float {
+        0% { transform: translateY(100vh); opacity: 0; }
+        20% { opacity: 1; }
+        80% { opacity: 1; }
+        100% { transform: translateY(-100vh); opacity: 0; }
       }
     </style>
   </head>
-  <body class="bg-yellow-200 relative">
-    <img src="./Balloon-Border.png" alt="" class="balloon" />
-    <img
-      src="./background.gif"
-      class="absolute inset-0 w-full h-full object-cover z-0 opacity-0"
-    />
-    <div class="container mx-auto relative z-10">
-      <img src="ucapan.png" alt="" class="w-80 md:max-w-md mx-auto opacity-0" />
-      <div class="py-8">
-        <p
-          class="text-4xl font-bold text-center mb-5 opacity-0 text-pretty font-sans"
-        >
-          Hasna Sri Aprilianti
-        </p>
-
-        <h1 id="typewriter-text" class="text-2xl text-center opacity-0"></h1>
-      </div>
+  <body class="relative min-h-screen flex items-center justify-center">
+    <div class="container mx-auto relative z-10 text-center p-4">
       <button
         id="startButton"
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-auto flex justify-center"
+        class="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300"
       >
         Klik Sini!
       </button>
-    </div>
-    <div class="flex justify-center">
-      <img src="./cake.gif" alt="" class="w-60 opacity-0" />
+      <img
+        src="https://via.placeholder.com/300x100?text=Ucapan"
+        alt="Ucapan"
+        class="ucapan-image w-64 md:w-96 mx-auto hidden"
+      />
+      <h1 class="text-4xl md:text-5xl font-bold text-pink-600 mt-6 font-sans hidden">
+        Hasna Sri Aprilianti
+      </h1>
+      <p id="typewriter-text" class="text-2xl md:text-3xl text-gray-800 mt-4 font-serif hidden"></p>
+      <div class="cake-container mt-8">
+        <img
+          src="https://media.giphy.com/media/l0Iyl55kTeh71nTWw/giphy.gif"
+          alt="Cake"
+          class="w-48 md:w-64 mx-auto"
+        />
+      </div>
     </div>
     <audio id="audio" controls style="display: none">
-      <source src="./audio.mp3" type="audio/mpeg" />
+      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
       Your browser does not support the audio element.
     </audio>
+
     <script>
-      document
-        .getElementById("startButton")
-        .addEventListener("click", function () {
-          var elements = document.querySelectorAll(".opacity-0");
-          elements.forEach(function (element) {
-            element.classList.remove("opacity-0");
-          });
-          var audio = document.getElementById("audio");
-          audio.play();
-          var balloon = document.querySelector(".balloon");
-          balloon.style.animation = "flyAndDisappear 5s linear forwards";
-          this.style.display = "none";
+      const sentences = [
+        "Selamat Ulang Tahun Hasnaaaa!!!!🥳",
+        "Semoga panjang umurrrr",
+        "Semoga sehat selaluuu",
+        "Semoga sukses selaluuu",
+        "Sukses dunia dan akhirat",
+        "Semoga semua impiannya tercapaii",
+        "Lancar segala urusannyaaa",
+        "Semoga selalu menebar hal positiff",
+        "Semakin baik kedepannya",
+        "Dijauhkan dari segala keburukan",
+        "Didekatkan dengan segala kebaikan",
+        "Semoga diberikan yang terbaik dari yang terbaik dari yang diridhoi-Nya",
+        "Fii Amanillah🤲🏻",
+      ];
+
+      let sentenceIndex = 0;
+      let charIndex = 0;
+      const typewriterText = document.getElementById("typewriter-text");
+
+      function typeWriter() {
+        const currentSentence = sentences[sentenceIndex];
+        if (charIndex < currentSentence.length) {
+          typewriterText.textContent += currentSentence.charAt(charIndex);
+          charIndex++;
+          setTimeout(typeWriter, 100);
+        } else {
+          setTimeout(() => {
+            typewriterText.textContent = "";
+            charIndex = 0;
+            sentenceIndex = (sentenceIndex + 1) % sentences.length;
+            typeWriter();
+          }, 2000);
+        }
+      }
+
+      function createBalloons() {
+        const balloonContainer = document.createElement("div");
+        balloonContainer.className = "absolute w-full h-full pointer-events-none";
+        document.body.appendChild(balloonContainer);
+
+        for (let i = 0; i < 10; i++) {
+          const balloon = document.createElement("img");
+          balloon.src = "https://via.placeholder.com/60x100/FF0000/FFFFFF?text=Balloon";
+          balloon.className = "balloon";
+          balloon.style.left = `${Math.random() * 100}%`;
+          balloon.style.width = `${40 + Math.random() * 30}px`;
+          balloon.style.animation = `float ${5 + Math.random() * 5}s linear forwards`;
+          balloonContainer.appendChild(balloon);
+        }
+      }
+
+      document.getElementById("startButton").addEventListener("click", () => {
+        document.getElementById("startButton").style.display = "none";
+        document.getElementById("audio").play();
+        createBalloons();
+
+        gsap.to(".hidden", {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          stagger: 0.3,
+          onStart: () => {
+            document.querySelectorAll(".hidden").forEach((el) => el.classList.remove("hidden"));
+            typeWriter();
+          },
         });
+
+        gsap.to(".cake-container", {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          delay: 0.5,
+        });
+
+        gsap.to(".ucapan-image", {
+          opacity: 1,
+          scale: 1,
+          duration: 1,
+          ease: "bounce.out",
+        });
+      });
     </script>
-    <script src="./script.js"></script>
   </body>
 </html>
