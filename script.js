@@ -1,5 +1,5 @@
 const sentences = [
-  "Selamat Ulang Tahun Feby!!!!🥳",
+  "Selamat Ulang Tahun Hasnaaaa!!!!🥳",
   "Semoga panjang umurrrr",
   "Semoga sehat selaluuu",
   "Semoga sukses selaluuu",
